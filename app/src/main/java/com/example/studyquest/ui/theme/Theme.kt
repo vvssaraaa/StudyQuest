@@ -7,52 +7,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.graphics.Color
 
-private val LightColorScheme = lightColorScheme(
-    primary = Pink,
-    secondary = Lavender,
-    tertiary = Yellow,
+
+private val StudyQuestColorScheme = darkColorScheme(
+    primary = Lavender,
+    onPrimary = Color(0xFF171525),
+
+    secondary = PixelCyan,
+    onSecondary = Color(0xFF171525),
+
+    tertiary = Pink,
+    onTertiary = Color(0xFF171525),
 
     background = Cream,
-    surface = Cream,
+    onBackground = SoftWhite,
 
-    onPrimary = DarkPurple,
-    onSecondary = DarkPurple,
-    onTertiary = DarkPurple,
-
-    onBackground = DarkPurple,
-    onSurface = DarkPurple
-)
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Pink,
-    secondary = Lavender,
-    tertiary = Yellow,
-
-    background = DarkPurple,
     surface = DarkPurple,
+    onSurface = SoftWhite,
 
-    onPrimary = DarkPurple,
-    onSecondary = Color.White,
-    onTertiary = DarkPurple,
+    surfaceVariant = DeepPurple,
+    onSurfaceVariant = MutedPurple,
 
-    onBackground = Cream,
-    onSurface = Cream
+    error = Color(0xFFFF7A90),
+    onError = Color(0xFF171525),
+
+    outline = Color(0xFF5B5277)
 )
 
 @Composable
 fun StudyQuestTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) {
-        DarkColorScheme
-    } else {
-        LightColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = StudyQuestColorScheme,
         typography = Typography,
         content = content
     )

@@ -40,13 +40,15 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.studyquest.ui.theme.StudyQuestTheme
+import com.example.studyquest.ui.theme.Yellow
+import androidx.compose.material3.CardDefaults
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            StudyQuestTheme(darkTheme = false) {
+            StudyQuestTheme {
                 TimerScreen()
             }
         }
@@ -109,12 +111,17 @@ fun StudyQuestApp() {
         )
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(text = "$earnedXp / $XP_GOAL xp")
+        Text(
+            text = "$earnedXp / $XP_GOAL XP",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.secondary
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "🔥 0 day streak",
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = Yellow
         )
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -228,7 +235,10 @@ fun QuestCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .alpha(if (quest.isCompleted) 0.5f else 1f)
+            .alpha(if (quest.isCompleted) 0.5f else 1f),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
         Row(
             modifier = Modifier
@@ -260,6 +270,7 @@ fun QuestCard(
             Text(
                 text = "+${quest.xp} XP",
                 style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.padding(end = 8.dp)
             )
         }

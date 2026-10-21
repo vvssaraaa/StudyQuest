@@ -100,13 +100,16 @@ fun TimerScreen() {
         }
     }
 
-    //colors
-    val containerColor =
-        if (mode == TimerMode.STUDY) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.secondary
-    val contentColor =
-        if (mode == TimerMode.STUDY) MaterialTheme.colorScheme.secondary
-        else MaterialTheme.colorScheme.primary
+    // Colors: dark card, neon accents
+    val containerColor = MaterialTheme.colorScheme.surface
+    val contentColor = MaterialTheme.colorScheme.onSurface
+
+    val timerAccent =
+        if (mode == TimerMode.STUDY) {
+            MaterialTheme.colorScheme.secondary // Cyan for focus
+        } else {
+            MaterialTheme.colorScheme.tertiary // Pink for breaks
+        }
 
     // layout
     Surface(
@@ -154,22 +157,27 @@ fun TimerScreen() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = if (mode == TimerMode.STUDY) "FOCUS TIME" else "BREAK TIME",
-                            style = MaterialTheme.typography.labelLarge
+                            text = if (mode == TimerMode.STUDY) "FOCUS MODE" else "BREAK MODE",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = timerAccent
                         )
+
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = timeText,
                             fontSize = 80.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
+
                         Spacer(modifier = Modifier.height(16.dp))
                         LinearProgressIndicator(
                             progress = { elapsedFraction },
                             modifier = Modifier.fillMaxWidth(),
-                            color = contentColor,
-                            trackColor = contentColor.copy(alpha = 0.25f)
+                            color = timerAccent,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant
                         )
+
                     }
                 }
             }
