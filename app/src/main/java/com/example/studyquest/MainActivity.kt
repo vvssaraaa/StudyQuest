@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StudyQuestTheme(darkTheme = false) {
-                StudyQuestApp()
+                TimerScreen()
             }
         }
     }
