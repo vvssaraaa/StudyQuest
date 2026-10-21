@@ -8,14 +8,14 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
-    primary = Lavender,
-    secondary = Pink,
+    primary = Pink,
+    secondary = Lavender,
     tertiary = Yellow,
 
     background = Cream,
     surface = Cream,
 
-    onPrimary = Color.White,
+    onPrimary = DarkPurple,
     onSecondary = DarkPurple,
     onTertiary = DarkPurple,
 
@@ -31,7 +31,7 @@ private val DarkColorScheme = darkColorScheme(
     background = DarkPurple,
     surface = DarkPurple,
 
-    onPrimary = Color.White,
+    onPrimary = DarkPurple,
     onSecondary = Color.White,
     onTertiary = DarkPurple,
 
