@@ -2,35 +2,37 @@ package com.example.studyquest.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.ui.graphics.Color
 
+private val ForestColorScheme = darkColorScheme(
+    // Main accent: buttons, study timer, progress bars, checkboxes
+    primary = MintLight,
+    onPrimary = ForestDeep,
 
-private val StudyQuestColorScheme = darkColorScheme(
-    primary = Lavender,
-    onPrimary = Color(0xFF171525),
+    secondary = LavenderLight,
+    onSecondary = ForestDeep,
 
-    secondary = PixelCyan,
-    onSecondary = Color(0xFF171525),
+    // Break timer and XP rewards
+    tertiary = Yellow,
+    onTertiary = ForestDeep,
 
-    tertiary = Pink,
-    onTertiary = Color(0xFF171525),
+    background = ForestDeep,
+    onBackground = Cream,
 
-    background = Cream,
-    onBackground = SoftWhite,
+    surface = ForestCard,
+    onSurface = Cream,
+    surfaceVariant = ForestMid,
+    onSurfaceVariant = SageText,
+    outline = SageOutline,
 
-    surface = DarkPurple,
-    onSurface = SoftWhite,
+    // Selected nav item and chips
+    secondaryContainer = ForestLight,
+    onSecondaryContainer = Cream,
 
-    surfaceVariant = DeepPurple,
-    onSurfaceVariant = MutedPurple,
-
-    error = Color(0xFFFF7A90),
-    onError = Color(0xFF171525),
-
-    outline = Color(0xFF5B5277)
+    // Where Material 3 components pick their background colour:
+    surfaceContainer = ForestCard,                              // bottom navigation bar
+    surfaceContainerHigh = ForestCard,                          // dialogs
+    surfaceContainerHighest = ForestMid.copy(alpha = 0.90f)     // cards (slightly see-through)
 )
 
 @Composable
@@ -38,7 +40,7 @@ fun StudyQuestTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = StudyQuestColorScheme,
+        colorScheme = ForestColorScheme,
         typography = Typography,
         content = content
     )

@@ -2,17 +2,21 @@ package com.example.studyquest
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,18 +25,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.studyquest.ui.theme.StudyQuestTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-
+import com.example.studyquest.ui.theme.LowPolyForestBackground
+import com.example.studyquest.ui.theme.StudyQuestTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // The app is always dark now, so tell Android to draw LIGHT status/navigation bar icons
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+        )
         setContent {
-            StudyQuestTheme{
+            StudyQuestTheme {
                 StudyQuestApp()
             }
         }
@@ -56,26 +64,38 @@ fun StudyQuestApp() {
     val tasksViewModel: TasksViewModel = viewModel()
     val timerViewModel: TimerViewModel = viewModel()
 
-    Scaffold(
-        bottomBar = {
-            NavigationBar {
-                Tab.entries.forEach { tab ->
-                    NavigationBarItem(
-                        selected = selectedTab == tab,
-                        onClick = { selectedTab = tab },
-                        icon = { Icon(tab.icon, contentDescription = tab.label) },
-                        label = { Text(tab.label) }
-                    )
+    // The forest is drawn first, the app sits on top of it
+    Box(modifier = Modifier.fillMaxSize()) {
+        LowPolyForestBackground(modifier = Modifier.fillMaxSize())
+
+        Scaffold(
+            containerColor = Color.Transparent,   // let the forest show through
+            // With a transparent container Compose can't guess the text colour,
+            // so we set it ourselves (otherwise text can turn black)
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            bottomBar = {
+                NavigationBar {
+                    Tab.entries.forEach { tab ->
+                        NavigationBarItem(
+                            selected = selectedTab == tab,
+                            onClick = { selectedTab = tab },
+                            icon = { Icon(tab.icon, contentDescription = tab.label) },
+                            label = { Text(tab.label) },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedTextColor = MaterialTheme.colorScheme.primary
+                            )
+                        )
+                    }
                 }
             }
-        }
-    ) { innerPadding ->
-        // innerPadding keeps the content clear of the status bar and the bottom bar
-        Box(modifier = Modifier.padding(innerPadding)) {
-            when (selectedTab) {
-                Tab.QUESTS -> TasksScreen(tasksViewModel)
-                Tab.TIMER -> TimerScreen(timerViewModel)
-                Tab.PROFILE -> ProfileScreen()
+        ) { innerPadding ->
+            // innerPadding keeps the content clear of the status bar and the bottom bar
+            Box(modifier = Modifier.padding(innerPadding)) {
+                when (selectedTab) {
+                    Tab.QUESTS -> TasksScreen(tasksViewModel)
+                    Tab.TIMER -> TimerScreen(timerViewModel)
+                    Tab.PROFILE -> ProfileScreen()
+                }
             }
         }
     }

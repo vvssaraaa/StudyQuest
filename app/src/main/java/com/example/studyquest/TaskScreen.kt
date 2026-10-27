@@ -30,9 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.example.studyquest.ui.theme.SageMuted
 
 @Composable
 fun TasksScreen(viewModel: TasksViewModel) {
@@ -164,11 +165,16 @@ fun QuestCard(
     onToggle: () -> Unit,
     onEdit: () -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .alpha(if (quest.isCompleted) 0.5f else 1f)
-    ) {
+    // Completed quests get a calmer colour that is still easy to read,
+    // instead of fading the whole card (fading would lower the contrast)
+    val titleColor =
+        if (quest.isCompleted) SageMuted else MaterialTheme.colorScheme.onSurface
+    val subjectColor =
+        if (quest.isCompleted) SageMuted else MaterialTheme.colorScheme.onSurfaceVariant
+    val xpColor =
+        if (quest.isCompleted) SageMuted else MaterialTheme.colorScheme.tertiary
+
+    Card(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -187,18 +193,22 @@ fun QuestCard(
                 Text(
                     text = quest.title,
                     style = MaterialTheme.typography.titleMedium,
+                    color = titleColor,
                     textDecoration = if (quest.isCompleted) TextDecoration.LineThrough else null
                 )
                 if (quest.subject.isNotBlank()) {
                     Text(
                         text = quest.subject,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = subjectColor
                     )
                 }
             }
             Text(
                 text = "+${quest.xp} XP",
                 style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                color = xpColor,
                 modifier = Modifier.padding(end = 8.dp)
             )
         }

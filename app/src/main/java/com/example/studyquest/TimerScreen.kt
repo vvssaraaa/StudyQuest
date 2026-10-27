@@ -1,5 +1,6 @@
 package com.example.studyquest
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -32,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,15 +56,17 @@ fun TimerScreen(viewModel: TimerViewModel) {
     val elapsedFraction = 1f - remainingMillis / totalMillis.toFloat()
     // Round UP so the display shows 25:00 at the start and only hits 00:00 at the very end
     val displaySeconds = ((remainingMillis + 999) / 1000).toInt()
-    val timeText = "%02d:%02d".format(displaySeconds / 60, displaySeconds % 60)
+    val minutesLeft = displaySeconds / 60
+    val secondsLeft = displaySeconds % 60
+    val timeText = "%02d:%02d".format(minutesLeft, secondsLeft)
 
-    // ---------- Colors for the current mode ----------
-    val containerColor =
-        if (mode == TimerMode.STUDY) MaterialTheme.colorScheme.secondary
-        else MaterialTheme.colorScheme.tertiary
-    val contentColor =
-        if (mode == TimerMode.STUDY) MaterialTheme.colorScheme.onSecondary
-        else MaterialTheme.colorScheme.onTertiary
+    // ---------- Colours for the current mode ----------
+    // Study = mint (forest), Break = yellow (moonlight).
+    // The text always says which mode it is too, so colour is never the only clue.
+    val studyAccent = MaterialTheme.colorScheme.primary
+    val breakAccent = MaterialTheme.colorScheme.tertiary
+    val accent = if (mode == TimerMode.STUDY) studyAccent else breakAccent
+    val onAccent = MaterialTheme.colorScheme.onPrimary   // dark forest colour, readable on both accents
 
     // ---------- Layout ----------
     Column(
@@ -75,12 +81,16 @@ fun TimerScreen(viewModel: TimerViewModel) {
                 text = "Pomodoro",
                 selected = mode == TimerMode.STUDY,
                 canSwitch = !isRunning,
+                accent = studyAccent,
+                onAccent = onAccent,
                 onClick = { viewModel.selectMode(TimerMode.STUDY) }
             )
             ModeButton(
                 text = "Break",
                 selected = mode == TimerMode.BREAK,
                 canSwitch = !isRunning,
+                accent = breakAccent,
+                onAccent = onAccent,
                 onClick = { viewModel.selectMode(TimerMode.BREAK) }
             )
         }
@@ -94,8 +104,9 @@ fun TimerScreen(viewModel: TimerViewModel) {
         ) {
             Surface(
                 shape = RoundedCornerShape(32.dp),
-                color = containerColor,
-                contentColor = contentColor,
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                border = BorderStroke(2.dp, accent),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
@@ -104,20 +115,29 @@ fun TimerScreen(viewModel: TimerViewModel) {
                 ) {
                     Text(
                         text = if (mode == TimerMode.STUDY) "FOCUS TIME" else "BREAK TIME",
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp,
+                        color = accent
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = timeText,
                         fontSize = 80.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        // Screen readers read "25 minutes 0 seconds remaining" instead of "25:00"
+                        modifier = Modifier.semantics {
+                            contentDescription = "$minutesLeft minutes $secondsLeft seconds remaining"
+                        }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     LinearProgressIndicator(
                         progress = { elapsedFraction },
-                        modifier = Modifier.fillMaxWidth(),
-                        color = contentColor,
-                        trackColor = contentColor.copy(alpha = 0.25f)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(8.dp),
+                        color = accent,
+                        trackColor = accent.copy(alpha = 0.25f)
                     )
                 }
             }
@@ -134,6 +154,10 @@ fun TimerScreen(viewModel: TimerViewModel) {
             }
             Button(
                 onClick = { viewModel.toggleRunning() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = accent,
+                    contentColor = onAccent
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp)
@@ -144,7 +168,8 @@ fun TimerScreen(viewModel: TimerViewModel) {
                         hasStarted -> "Resume"
                         else -> "Start"
                     },
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
                 )
             }
             IconButton(
@@ -176,13 +201,30 @@ fun ModeButton(
     text: String,
     selected: Boolean,
     canSwitch: Boolean,
+    accent: androidx.compose.ui.graphics.Color,
+    onAccent: androidx.compose.ui.graphics.Color,
     onClick: () -> Unit
 ) {
     if (selected) {
-        // Do nothing when the already-selected mode is tapped (it would reset the timer)
-        Button(onClick = {}) { Text(text) }
+        // Filled in this mode's colour. Does nothing when tapped (it would reset the timer).
+        Button(
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = onAccent)
+        ) {
+            Text(text, fontWeight = FontWeight.Bold)
+        }
     } else {
-        OutlinedButton(onClick = onClick, enabled = canSwitch) { Text(text) }
+        // Solid (not see-through) so the forest behind it never hurts the text contrast
+        OutlinedButton(
+            onClick = onClick,
+            enabled = canSwitch,
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            )
+        ) {
+            Text(text)
+        }
     }
 }
 
