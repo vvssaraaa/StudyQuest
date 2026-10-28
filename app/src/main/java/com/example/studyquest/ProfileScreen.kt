@@ -80,7 +80,7 @@ fun ProfileScreen(viewModel: ProfileViewModel, questXp: Int) {
                         .border(3.dp, MaterialTheme.colorScheme.secondary, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "🧛", fontSize = 36.sp)
+                    Text(text = "\uD83E\uDDDB\uD83C\uDFFB\u200D♀\uFE0F", fontSize = 36.sp)
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(modifier = Modifier.weight(1f)) {
@@ -162,7 +162,7 @@ fun ProfileScreen(viewModel: ProfileViewModel, questXp: Int) {
             WeeklyChart(days = weekDays)
         }
 
-        // TEMPORARY: remove this button when you no longer need it for testing
+        // TEMPORARY FOR NOW: remove this button when you no longer need it for testing
         TextButton(
             onClick = { viewModel.addTestSession() },
             modifier = Modifier.fillMaxWidth()
@@ -182,9 +182,7 @@ fun ProfileScreen(viewModel: ProfileViewModel, questXp: Int) {
         )
     }
 }
-
 // ---------- Pieces ----------
-
 @Composable
 private fun ProfileCard(
     modifier: Modifier = Modifier,
@@ -228,7 +226,6 @@ private fun StatCard(
         }
     }
 }
-
 @Composable
 private fun WeeklyChart(days: List<DayStat>) {
     // Always scale to at least 1 hour, so an empty week doesn't look strange

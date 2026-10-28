@@ -30,7 +30,6 @@ private val VampireForestColorScheme = darkColorScheme(
     secondaryContainer = PlumLight,
     onSecondaryContainer = Cream,
 
-    // Where Material 3 components pick their background colour:
     surfaceContainer = PlumCard,                                // bottom navigation bar
     surfaceContainerHigh = PlumCard,                            // dialogs, timer card, profile cards
     surfaceContainerHighest = ForestMid.copy(alpha = 0.90f)     // quest cards (slightly see-through)

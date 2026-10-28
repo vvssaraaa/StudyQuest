@@ -115,7 +115,7 @@ fun TimerScreen(viewModel: TimerViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = if (mode == TimerMode.STUDY) "NIGHT SHIFT" else "COFFIN BREAK",
+                        text = if (mode == TimerMode.STUDY) "STUDY" else "BREAK",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp,

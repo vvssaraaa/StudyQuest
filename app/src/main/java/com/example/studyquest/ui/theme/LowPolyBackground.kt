@@ -16,7 +16,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-// ---------- Scene colours (only used in this file) ----------
 // Sky: dark purple at the top, fading into forest green at the bottom
 private val NightTop = Color(0xFF0F0919)
 private val NightMid = Color(0xFF1C1232)
@@ -44,10 +43,6 @@ private val BackTreeDark = Color(0xFF143528)
 private val FrontTreeLight = Color(0xFF245A44)
 private val FrontTreeDark = Color(0xFF18402F)
 private val TrunkColor = Color(0xFF0E2219)
-
-// ---------- Scene data ----------
-// All positions are stored as fractions (0..1) of the screen, so the scene
-// scales to any screen size. The random parts use a fixed seed.
 
 private class Facet(val a: Offset, val b: Offset, val c: Offset, val shade: Float)
 

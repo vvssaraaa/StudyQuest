@@ -12,12 +12,12 @@ package com.example.studyquest
 
     fun levelTitle(level: Int): String {
         val titles = listOf(
-            "Fledgling",
-            "Night Stalker",
-            "Shadow Walker",
-            "Crimson Noble",
-            "Vampire Count",
-            "Ancient Elder"
+            "Vampire",
+            "Hybrid",
+            "Augustine",
+            "Heretic",
+            "Original",
+            "Tribrid"
         )
         return titles[level.coerceIn(0, titles.lastIndex)]
     }

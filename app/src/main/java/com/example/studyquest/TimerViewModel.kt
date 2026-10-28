@@ -21,7 +21,6 @@ fun durationMillis(mode: TimerMode, studyMinutes: Int, breakMinutes: Int): Long 
 
 class TimerViewModel : ViewModel() {
 
-    // "private set" = the screen can read these, but only this class can change them
     var mode by mutableStateOf(TimerMode.STUDY)
         private set
     var studyMinutes by mutableIntStateOf(25)

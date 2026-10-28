@@ -8,7 +8,7 @@ import java.util.UUID
 
 class ProfileViewModel : ViewModel() {
 
-    var displayName by mutableStateOf("Young Vampire")
+    var displayName by mutableStateOf("Sara")
         private set
 
     fun updateName(newName: String) {

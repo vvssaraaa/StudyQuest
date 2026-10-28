@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyquest.ui.theme.SageMuted
 import com.example.studyquest.ui.theme.TitleFont
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun TasksScreen(viewModel: TasksViewModel) {
@@ -68,7 +69,9 @@ fun TasksScreen(viewModel: TasksViewModel) {
 
         LinearProgressIndicator(
             progress = { progress },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            color = Color(0xFFFFD700),
+            trackColor = Color(0xFF302840)
         )
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -76,13 +79,13 @@ fun TasksScreen(viewModel: TasksViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "🦇 0 night streak",
+            text = "🦇 0 streak",
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Tonight's quests",
+            text = "Tonight's quests: ",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -90,7 +93,7 @@ fun TasksScreen(viewModel: TasksViewModel) {
         // weight(1f) = take all remaining space, so the button below stays at the bottom
         LazyColumn(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             if (quests.isEmpty()) {
                 item { Text("No quests yet. Add your first one!") }
