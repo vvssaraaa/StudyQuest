@@ -33,7 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.studyquest.ui.theme.SageMuted
+import com.example.studyquest.ui.theme.TitleFont
 
 @Composable
 fun TasksScreen(viewModel: TasksViewModel) {
@@ -57,7 +59,10 @@ fun TasksScreen(viewModel: TasksViewModel) {
     ) {
         Text(
             text = "Mystic Hours",
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            fontFamily = TitleFont,
+            fontWeight = FontWeight.Normal,   // the font has only one weight, so don't ask for bold
+            fontSize = 40.sp                  // this font is narrow, so it can be bigger
         )
         Spacer(modifier = Modifier.height(8.dp))
 

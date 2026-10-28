@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -123,8 +124,12 @@ fun TimerScreen(viewModel: TimerViewModel) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = timeText,
-                        fontSize = 80.sp,
-                        fontWeight = FontWeight.Bold,
+                        // Sized in dp (not sp) so the big digits can't overflow the card
+                        // when the phone's font size is set very large
+                        fontSize = with(LocalDensity.current) { 80.dp.toSp() },
+                        fontWeight = FontWeight.Normal,
+                        maxLines = 1,
+                        softWrap = false,
                         // Screen readers read "25 minutes 0 seconds remaining" instead of "25:00"
                         modifier = Modifier.semantics {
                             contentDescription = "$minutesLeft minutes $secondsLeft seconds remaining"
