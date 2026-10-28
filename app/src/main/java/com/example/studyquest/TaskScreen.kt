@@ -56,7 +56,7 @@ fun TasksScreen(viewModel: TasksViewModel) {
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            text = "StudyQuest",
+            text = "Mystic Hours",
             style = MaterialTheme.typography.headlineLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
