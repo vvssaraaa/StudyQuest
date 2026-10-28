@@ -104,7 +104,7 @@ fun TimerScreen(viewModel: TimerViewModel) {
         ) {
             Surface(
                 shape = RoundedCornerShape(32.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.92f),
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 border = BorderStroke(2.dp, accent),
                 modifier = Modifier.fillMaxWidth()
@@ -114,7 +114,7 @@ fun TimerScreen(viewModel: TimerViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = if (mode == TimerMode.STUDY) "FOCUS TIME" else "BREAK TIME",
+                        text = if (mode == TimerMode.STUDY) "NIGHT SHIFT" else "COFFIN BREAK",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp,

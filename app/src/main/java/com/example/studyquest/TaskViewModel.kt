@@ -2,50 +2,59 @@ package com.example.studyquest
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import java.util.UUID
 
 data class Quest(
-    val id: Int,
+    val id: String = UUID.randomUUID().toString(),
     val title: String,
-    val subject: String,
-    val xp: Int,
+    val subject: String = "",
+    val xp: Int = 20,
     val isCompleted: Boolean = false
 )
 
-// Placeholder goal for the XP bar (will be replaced by study-time levels later)
-const val XP_GOAL = 100
+const val XP_GOAL = 500
 
 class TasksViewModel : ViewModel() {
 
-    // Compose redraws anything that reads this list whenever it changes
-    val quests = mutableStateListOf(
-        Quest(1, "Study algorithms", "Algdat", 30),
-        Quest(2, "Work on webapp project", "Web Applications", 50),
-        Quest(3, "Security quiz", "Data Security", 20)
-    )
-
-    private var nextId = 4
+    val quests = mutableStateListOf<Quest>()
 
     fun addQuest(title: String, subject: String, xp: Int) {
-        quests.add(Quest(nextId, title, subject, xp))
-        nextId++
+        quests.add(
+            Quest(
+                title = title,
+                subject = subject,
+                xp = xp
+            )
+        )
     }
 
-    fun toggleQuest(id: Int) {
+    fun toggleQuest(id: String) {
         val index = quests.indexOfFirst { it.id == id }
         if (index != -1) {
-            // Replace the item with a changed copy so Compose notices the change
-            quests[index] = quests[index].copy(isCompleted = !quests[index].isCompleted)
+            val quest = quests[index]
+            quests[index] = quest.copy(
+                isCompleted = !quest.isCompleted
+            )
         }
     }
 
-    fun updateQuest(id: Int, title: String, subject: String, xp: Int) {
+    fun updateQuest(
+        id: String,
+        title: String,
+        subject: String,
+        xp: Int
+    ) {
         val index = quests.indexOfFirst { it.id == id }
         if (index != -1) {
-            quests[index] = quests[index].copy(title = title, subject = subject, xp = xp)
+            quests[index] = quests[index].copy(
+                title = title,
+                subject = subject,
+                xp = xp
+            )
         }
     }
 
-    fun deleteQuest(id: Int) {
+    fun deleteQuest(id: String) {
         quests.removeAll { it.id == id }
     }
 }

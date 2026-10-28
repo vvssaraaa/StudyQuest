@@ -63,6 +63,7 @@ fun StudyQuestApp() {
     // are NOT thrown away when you switch tabs.
     val tasksViewModel: TasksViewModel = viewModel()
     val timerViewModel: TimerViewModel = viewModel()
+    val profileViewModel: ProfileViewModel = viewModel()
 
     // The forest is drawn first, the app sits on top of it
     Box(modifier = Modifier.fillMaxSize()) {
@@ -94,7 +95,10 @@ fun StudyQuestApp() {
                 when (selectedTab) {
                     Tab.QUESTS -> TasksScreen(tasksViewModel)
                     Tab.TIMER -> TimerScreen(timerViewModel)
-                    Tab.PROFILE -> ProfileScreen()
+                    Tab.PROFILE -> ProfileScreen(
+                        viewModel = profileViewModel,
+                        questXp = tasksViewModel.quests.filter { it.isCompleted }.sumOf { it.xp }
+                    )
                 }
             }
         }

@@ -71,13 +71,13 @@ fun TasksScreen(viewModel: TasksViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "🔥 0 day streak",
+            text = "🦇 0 night streak",
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Today's quests",
+            text = "Tonight's quests",
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(12.dp))

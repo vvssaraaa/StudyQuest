@@ -4,11 +4,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 
-private val ForestColorScheme = darkColorScheme(
-    // Main accent: buttons, study timer, progress bars, checkboxes
+private val VampireForestColorScheme = darkColorScheme(
+    // Main accent: buttons, study timer, checkboxes
     primary = MintLight,
     onPrimary = ForestDeep,
 
+    // Vampire accent: level bar, titles
     secondary = LavenderLight,
     onSecondary = ForestDeep,
 
@@ -19,20 +20,20 @@ private val ForestColorScheme = darkColorScheme(
     background = ForestDeep,
     onBackground = Cream,
 
-    surface = ForestCard,
+    surface = PlumCard,
     onSurface = Cream,
     surfaceVariant = ForestMid,
     onSurfaceVariant = SageText,
     outline = SageOutline,
 
-    // Selected nav item and chips
-    secondaryContainer = ForestLight,
+    // Selected tab and chips
+    secondaryContainer = PlumLight,
     onSecondaryContainer = Cream,
 
     // Where Material 3 components pick their background colour:
-    surfaceContainer = ForestCard,                              // bottom navigation bar
-    surfaceContainerHigh = ForestCard,                          // dialogs
-    surfaceContainerHighest = ForestMid.copy(alpha = 0.90f)     // cards (slightly see-through)
+    surfaceContainer = PlumCard,                                // bottom navigation bar
+    surfaceContainerHigh = PlumCard,                            // dialogs, timer card, profile cards
+    surfaceContainerHighest = ForestMid.copy(alpha = 0.90f)     // quest cards (slightly see-through)
 )
 
 @Composable
@@ -40,7 +41,7 @@ fun StudyQuestTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = ForestColorScheme,
+        colorScheme = VampireForestColorScheme,
         typography = Typography,
         content = content
     )
